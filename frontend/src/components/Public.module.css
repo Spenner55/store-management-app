@@ -1,0 +1,29 @@
+.public {
+    text-align: center;
+    padding: 2rem;
+}
+
+.public__header {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.public__main {
+    margin-top: 2rem;
+}
+
+.public__employee__login {
+    text-decoration: none;
+    color: white;
+    background-color: #007bff;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.public__footer {
+    margin-top: 2rem;
+    background-color: #222;
+    color: white;
+    padding: 1rem;
+}

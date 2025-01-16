@@ -1,0 +1,22 @@
+.dash-header {
+    background-color: #444;
+    color: white;
+    padding: 1rem;
+}
+
+.dash-header__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dash-header__home {
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: white;
+}
+
+.dash-header__nav {
+    display: flex;
+    gap: 1rem;
+}
