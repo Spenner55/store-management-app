@@ -11,3 +11,5 @@ const corsoptions = {
     credentials: true,
     optionsSuccessStatus: 200
 }
+
+module.exports = corsoptions;
