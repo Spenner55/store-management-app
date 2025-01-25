@@ -6,7 +6,10 @@ const DashHeader = () => {
         <header className={styles.dashHeader}>
             <div className={styles.dashHeaderContainer}>
                 <Link to='/' className={styles.dashHeaderHome}>
-                    <h1>Home</h1>
+                    <p>Logout</p>
+                </Link>
+                <Link to='/dash' className={styles.dashHeaderHome}>
+                    <p>Home</p>
                 </Link>
                 <nav className={styles.dashHeaderNav}>
                     {/* Navigation links can go here */}
