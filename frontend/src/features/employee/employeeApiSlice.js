@@ -29,12 +29,51 @@ export const employeesApiSlice = apiSlice.injectEndpoints({
                 }
                 else return [{type: 'User', id: 'LIST'}];
             }
-        })
+        }),
+
+        createNewEmployee: builder.mutation({
+            query: initialEmployeeData => ({
+                url: '/employees',
+                method: 'POST',
+                body: {
+                    ...initialEmployeeData,
+                }
+            }),
+            invalidatesTags: [
+                {type: 'Employee', id: 'List'}
+            ]
+        }),
+
+        updateEmployee: builder.mutation({
+            query: initialEmployeeData => ({
+                url: 'employees',
+                method: 'PATCH',
+                body: {
+                    ...initialEmployeeData,
+                }
+            }),
+            invalidatesTags: (result, error, arg) => [
+                {type: 'Employee', id: arg.id}
+            ]
+        }),
+        deleteEmployee: builder.mutation({
+            query: ({id}) => ({
+                url: '/employees',
+                method: 'DELETE',
+                body: {id}
+            }),
+            invalidatesTags: (result, error, arg) => [
+                {type: 'Employee', id: arg.id}
+            ]
+        }),
     })
 })
 
 export const {
     useGetEmployeesQuery,
+    useCreateNewEmployeeMutation,
+    useUpdateEmployeeMutation,
+    useDeleteEmployeeMutation,
 } = employeesApiSlice;
 
 export const selectEmployeesResult = employeesApiSlice.endpoints.getEmployees.select();
