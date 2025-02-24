@@ -18,7 +18,9 @@ const login = asyncHandler(async (req, res) => {
 
     const match = await bcrypt.compare(password, foundEmployee.password);
 
-    if(!match) return res.status(401).json({message: 'Unauthorized'});
+    if(!match) {
+        return res.status(401).json({message: 'Unauthorized'});
+    }
 
     const accessToken = jwt.sign(
         {
