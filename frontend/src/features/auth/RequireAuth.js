@@ -1,22 +1,17 @@
-import { useSelector } from "react-redux";
-import jwt_decode from 'jwt-decode';
-import { selectCurrentToken } from "./authSlice";
+import React from "react";
+import { Navigate, Outlet } from 'react-router-dom';
+import useAuth from "../../hooks/useAuth";
 
-const useAuth = () => {
-    const token = useSelector(selectCurrentToken);
+const RequireAuth = ({ allowedRoles}) => {
+    const { role } = useAuth();
 
-    if(!token) return {email: null, role: null};
+    if(!role) return <Navigate to='/unauthorized' replace />;
 
-    try {
-        const decoded = jwt_decode(token);
-        const email = decoded?.UserInfo?.email;
-        const role = decoded?.UserInfo?.role;
-        return { email, role };
+    if(allowedRoles && !allowedRoles.includes(role)) {
+        return <Navigate to='/unauthorized' replace />;
     }
-    catch (err) {
-        console.error('Failed to decode token', error);
-        return { email: null, role: null };
-    }
+
+    return <Outlet/>;
 };
 
-export default useAuth;
+export default RequireAuth;
