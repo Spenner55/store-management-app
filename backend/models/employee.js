@@ -1,12 +1,6 @@
 const mongoose = require('mongoose');
-const { v4: uuidv4 } = require('uuid');
 
 const employeeSchema = new mongoose.Schema({
-  uuid: {
-    type: String,
-    //auto generate unique user ID
-    default: uuidv4,
-  },
   first_name: {
     type: String,
     required: true

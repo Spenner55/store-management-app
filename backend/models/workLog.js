@@ -1,12 +1,7 @@
 const mongoose = require('mongoose');
-const { v4: uuidv4 } = require('uuid');
 
 const worklogSchema = new mongoose.Schema({
-    uuid: {
-        type: String,
-        default: uuidv4,
-    },
-    employeeId: {
+    employee: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Employee',
         required: true,
@@ -22,7 +17,7 @@ const worklogSchema = new mongoose.Schema({
 });
 
 worklogSchema.pre(/^find/, function(next) {
-    this.populate('employeeId', 'first_name last_name');
+    this.populate('employee', 'first_name last_name');
     next();
 });
 

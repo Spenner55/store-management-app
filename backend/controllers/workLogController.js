@@ -13,24 +13,24 @@ const getAllWorkLogs = asyncHandler(async (res, req) => {
 });
 
 const getEmployeeWorkLogs = asyncHandler(async (res, req) => {
-    const {employeeId} = req.params;
-    const workLogs = await WorkLog.find({employeeId}).lean();
+    const {employee} = req.params;
+    const workLogs = await WorkLog.find({employee}).lean();
 
     if(!workLogs?.length) {
-        return res.status(400).json({message: `No Work Logs found for employeeId: ${employeeId}`});
+        return res.status(400).json({message: `No Work Logs found for employee: ${employee}`});
     }
 
     res.jason(workLogs);
 });
 
 const createNewWorkLog = asyncHandler(async (res, req) => {
-    const {employeeId, content} = req.body;
+    const {employee, content} = req.body;
 
-    if(!employeeId || !content) {
+    if(!employee || !content) {
         res.status(400).json({message: "All Fields Required"});
     }
 
-    const workLog = await WorkLog.create({employeeId, content});
+    const workLog = await WorkLog.create({employee, content});
 
     if(workLog) {
         res.status(201).json({messsage: 'New Work Log Created', workLog});

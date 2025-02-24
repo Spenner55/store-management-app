@@ -34,13 +34,13 @@ const createNewEmployee = asyncHandler(async (req, res) =>{
 })
 
 const updateEmployee = asyncHandler(async (req, res) =>{
-    const { uuid, first_name, last_name, email, department, wage, role, password } = req.body;
+    const { id, first_name, last_name, email, department, wage, role, password } = req.body;
 
-    if(!uuid || !first_name || !last_name || !email || !department || !wage || !role) {
+    if(!id || !first_name || !last_name || !email || !department || !wage || !role) {
         res.status(400).json({ message: "All fields are required"});
     }
 
-    const employee = await Employee.findById(uuid).exec();
+    const employee = await Employee.findById(id).exec();
 
     if(!employee) {
         res.status(400).json({message: "No employee found"});
@@ -66,21 +66,21 @@ const updateEmployee = asyncHandler(async (req, res) =>{
 })
 
 const deleteEmployee = asyncHandler(async (req, res) =>{
-    const {uuid} = req.body;
+    const {id} = req.body;
 
-    if(!uuid) {
-        res.status(400).json({message: "Missing uuid"});
+    if(!id) {
+        res.status(400).json({message: "Missing id"});
     }
 
-    const employee = await Employee.findById(uuid).exec();
+    const employee = await Employee.findById(id).exec();
 
     if(!employee) {
-        res.status(400).json({message: `No employee with uuid: ${uuid} found`});
+        res.status(400).json({message: `No employee with id: ${id} found`});
     }
 
     const deletedEmployee = await employee.deleteOne();
 
-    res.json({message: `Employee: ${deletedEmployee.first_name} ${deletedEmployee.last_name} with uuid: ${deletedEmployee.uuid} deleted`})
+    res.json({message: `Employee: ${deletedEmployee.first_name} ${deletedEmployee.last_name} with id: ${deletedEmployee.id} deleted`})
 
 })
 
