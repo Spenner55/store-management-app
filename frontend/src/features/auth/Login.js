@@ -1,21 +1,65 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
+import { useDispatch } from 'react-redux';
+import { setCredentials } from './authSlice';
+import { useLoginMutation } from './authApiSlice';
+
 const Login = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const errRef = useRef();
     const userRef = useRef();
 
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [errMsg, setErrMsg] = useState('');
+
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const handleUserInput = (e) => setUsername(e.target.value);
+    const [login, { isLoading }] = useLoginMutation();
+
+    useEffect(() => {
+        userRef.current.focus();
+    }, []);
+
+    useEffect(() => {
+        setErrMsg('');
+    }, [email, password]);
+
+    const handleUserInput = (e) => setEmail(e.target.value);
     const handlePasswordInput = (e) => setPassword(e.target.value);
 
-    const handleSubmit = () => {
-        setUsername('');
-        setPassword('');
-        navigate('/dash');
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const { accessToken } = await login({ email, password }).unwrap();
+            dispatch(setCredentials({accessToken}));
+            setEmail('');
+            setPassword('');
+            navigate('/dash');
+        }
+        catch (err) {
+            if(!err.status) {
+                setErrMsg('No server response');
+            }
+            else if(err.status === 400) {
+                setErrMsg('Missing Credentials');
+            }
+            else if(err.status === 401) {
+                setErrMsg('Unauthorized');
+            }
+            else {
+                setErrMsg(err.data?.message);
+            }
+            if(errRef.current)  {
+                errRef.current.focus();
+            }
+        }
     }
+
+    const errClass = errMsg ? 'errmsg' : 'offscreen';
+
+    if (isLoading) return <p>Loading...</p>
 
     const content = (
         <section className='public'>
@@ -25,14 +69,15 @@ const Login = () => {
                 </h1>
             </header>
             <main className='login'>
+                <p ref={errRef} className={errClass} aria-live='assertive' tabIndex='-1'>{errMsg}</p>
                 <form className='form' onSubmit={handleSubmit}>
-                    <label htmlFor='username'>Username: </label>
+                    <label htmlFor='email'>email: </label>
                     <input
                         className='form__input'
                         type='text'
-                        id='username'
+                        id='email'
                         ref={userRef}
-                        value={username}
+                        value={email}
                         onChange={handleUserInput}
                         autoComplete='off'
                         required

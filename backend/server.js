@@ -16,8 +16,6 @@ connectDB();
 
 app.use(logger);
 
-app.use(errorHandler);
-
 app.use(cors(corsOptions));
 
 app.use(cookieParser());
@@ -31,6 +29,8 @@ app.use('/', require('./routes/root'));
 app.use('/auth', require('./routes/authRoute'));
 app.use('/employee', require('./routes/employeeRoutes'));
 app.use('/worklog', require('./routes/workLogRoute'));
+
+app.use(errorHandler);
 
 app.all('*', (req, res) => {
   res.status(404)

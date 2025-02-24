@@ -10,10 +10,10 @@ const login = asyncHandler(async (req, res) => {
         return res.status(400).json({message: 'All fields required'});
     }
 
-    const foundEmployee = await Employee.findOne({ username }).exec();
+    const foundEmployee = await Employee.findOne({ email }).exec();
 
-    if(!foundEmployee || !foundEmployee.active) {
-        res.status(401).json({message: 'Unauthorized'});
+    if(!foundEmployee) {
+        return res.status(401).json({message: 'Unauthorized'});
     }
 
     const match = await bcrypt.compare(password, foundEmployee.password);
@@ -24,7 +24,7 @@ const login = asyncHandler(async (req, res) => {
         {
             'UserInfo': {
                 'email': foundEmployee.email,
-                'password': foundEmployee.password,
+                'role': foundEmployee.role,
             },
         },
         process.env.ACCESS_TOKEN_SECRET,
@@ -34,7 +34,7 @@ const login = asyncHandler(async (req, res) => {
     res.json({accessToken});
 })
 
-modules.export = {
+module.exports = {
     login,
     //add logout later with cookies
 }
