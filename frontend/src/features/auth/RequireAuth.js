@@ -5,7 +5,7 @@ import useAuth from "../../hooks/useAuth";
 const RequireAuth = ({ allowedRoles}) => {
     const { role } = useAuth();
 
-    if(!role) return <Navigate to='/unauthorized' replace />;
+    if(!role) return <Navigate to='/login' replace />;
 
     if(allowedRoles && !allowedRoles.includes(role)) {
         return <Navigate to='/unauthorized' replace />;

@@ -39,6 +39,7 @@ const Login = () => {
             navigate('/dash');
         }
         catch (err) {
+            console.log('Error object:', err)
             if(!err.status) {
                 setErrMsg('No server response');
             }
@@ -46,7 +47,7 @@ const Login = () => {
                 setErrMsg('Missing Credentials');
             }
             else if(err.status === 401) {
-                setErrMsg('Unauthorized');
+                setErrMsg('Email or Password Incorrect');
             }
             else {
                 setErrMsg(err.data?.message);
