@@ -9,6 +9,7 @@ const useAuth = () => {
 
     try {
         const decoded = jwtDecode(token);
+        console.log(decoded);
         const email = decoded?.UserInfo?.email;
         const role = decoded?.UserInfo?.role;
         return { email, role };
