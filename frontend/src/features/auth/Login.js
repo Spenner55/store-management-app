@@ -40,13 +40,13 @@ const Login = () => {
         }
         catch (err) {
             console.log('Error object:', err)
-            if(!err.status) {
+            if(!err.originalStatus) {
                 setErrMsg('No server response');
             }
-            else if(err.status === 400) {
+            else if(err.originalStatus === 400) {
                 setErrMsg('Missing Credentials');
             }
-            else if(err.status === 401) {
+            else if(err.originalStatus === 401) {
                 setErrMsg('Email or Password Incorrect');
             }
             else {
