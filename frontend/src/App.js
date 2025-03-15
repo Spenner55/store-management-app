@@ -8,6 +8,8 @@ import Unauthorized from './components/Unauthorized';
 import RequireAuth from './features/auth/RequireAuth';
 import Home from './features/auth/Home';
 import { ROLES } from './config/roles';
+import Prefetch from './features/auth/Prefetch';
+import PersistLogin from './features/auth/PersistLogin';
 
 function App() {
 	return (
@@ -18,15 +20,17 @@ function App() {
 				<Route path='login' element={<Login/>}/>
                 <Route path='unauthorized' element={<Unauthorized/>}/>
 
-				<Route element={<RequireAuth allowedRoles={[ROLES.Employee, ROLES.Manager, ROLES.Admin]} />} >
-					<Route path="dash" element={<DashLayout />} >
+				<Route element={<PersistLogin />} >
+					<Route element={<Prefetch />} >
+						<Route path="dash" element={<DashLayout />} >
 
-					<Route index element={<Home/>}/>
+							<Route index element={<Home/>}/>
 
-					<Route path='employees'>
-						<Route index element={<EmployeesList />} />
-					</Route>
+							<Route path='employees'>
+								<Route index element={<EmployeesList />} />
+							</Route>
 
+						</Route>
 					</Route>
 				</Route>
 
