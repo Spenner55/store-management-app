@@ -7,7 +7,9 @@ router.use(verifyJWT);
 
 router.route('/')
     .get(workLogController.getAllWorkLogs)
-    .get(workLogController.getEmployeeWorkLogs)
     .post(workLogController.createNewWorkLog);
+
+router.route('/:employee_id')
+    .get(workLogController.getEmployeeWorkLogs);
 
 module.exports = router;

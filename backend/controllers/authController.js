@@ -1,4 +1,4 @@
-const Employee = require('../models/employee');
+const pool = require('../config/connect');
 const bcrypt = require('bcrypt');
 const asyncHandler = require('express-async-handler');
 const jwt = require('jsonwebtoken');
@@ -10,16 +10,20 @@ const login = asyncHandler(async (req, res) => {
         return res.status(400).json({message: 'All fields required'});
     }
 
-    const foundEmployee = await Employee.findOne({ email }).exec();
+    const foundResult = await pool.query(
+        'SELECT * FROM employees WHERE email = $1', [email]
+    )
+
+    const foundEmployee = foundResult.rows[0];
 
     if(!foundEmployee) {
-        return res.status(401).json({message: 'Unauthorized'});
+        return res.status(401).json({message: 'Unauthorized Employee'});
     }
 
     const match = await bcrypt.compare(password, foundEmployee.password);
 
     if(!match) {
-        return res.status(401).json({message: 'Unauthorized'});
+        return res.status(401).json({message: 'Unauthorized Employee'});
     }
 
     const accessToken = jwt.sign(
@@ -52,7 +56,7 @@ const login = asyncHandler(async (req, res) => {
 const refresh = (req, res) => {
     const cookies = req.cookies;
 
-    if(!cookies?.jwt) return res.status(401).json({message: 'Unauthorized'});
+    if(!cookies?.jwt) return res.status(401).json({message: 'Unauthorized Refresh'});
 
     const refreshToken = cookies.jwt;
 
@@ -62,9 +66,13 @@ const refresh = (req, res) => {
         asyncHandler(async (err, decoded) => {
             if(err) return res.status(403).json({message: 'Forbidden'});
 
-            const foundEmployee = await Employee.findOne({email: decoded.email}).exec();
-
-            if(!foundEmployee) return res.status(401).json({message: 'Unauthorized'});
+            const foundResult = await pool.query(
+                'SELECT email, role FROM employees WHERE email = $1',
+                [decoded.email]
+            )
+            const foundEmployee = foundResult.rows[0];
+            
+            if(!foundEmployee) return res.status(401).json({message: 'Unauthorized Refresh'});
 
             const accessToken = jwt.sign(
                 {

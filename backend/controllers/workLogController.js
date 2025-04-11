@@ -1,9 +1,8 @@
-const employee = require('../models/employee');
-const WorkLog = require('../models/workLog');
+const pool = require('../config/connect');
 const asyncHandler = require('express-async-handler');
 
-const getAllWorkLogs = asyncHandler(async (res, req) => {
-    const workLogs = await WorkLog.find().lean();
+const getAllWorkLogs = asyncHandler(async (req, res) => {
+    const { rows: workLogs } = await pool.query('SELECT * FROM worklogs');
 
     if(!workLogs?.length) {
         return res.status(400).json({message: 'No Work Logs Found'});
@@ -12,25 +11,35 @@ const getAllWorkLogs = asyncHandler(async (res, req) => {
     res.json(workLogs);
 });
 
-const getEmployeeWorkLogs = asyncHandler(async (res, req) => {
-    const {employee} = req.params;
-    const workLogs = await WorkLog.find({employee}).lean();
+const getEmployeeWorkLogs = asyncHandler(async (req, res) => {
+    const {employee_id} = req.params;
+    
+    const { rows: workLogs } = await pool.query(
+        'SELECT * FROM worklogs WHERE employee_id = $1',
+        [employee_id]
+      );
 
     if(!workLogs?.length) {
-        return res.status(400).json({message: `No Work Logs found for employee: ${employee}`});
+        return res.status(400).json({message: `No Work Logs found for employee: ${employee_id}`});
     }
 
-    res.jason(workLogs);
+    res.json(workLogs);
 });
 
-const createNewWorkLog = asyncHandler(async (res, req) => {
-    const {employee, content} = req.body;
+const createNewWorkLog = asyncHandler(async (req, res) => {
+    const {employee_id, product_id, message} = req.body;
 
-    if(!employee || !content) {
+    if(!employee_id || !product_id || !message) {
         res.status(400).json({message: "All Fields Required"});
     }
 
-    const workLog = await WorkLog.create({employee, content});
+    const insertQuery = `
+    INSERT INTO worklogs (employee_id, product_id, message)
+    VALUES ($1, $2, $3)
+    RETURNING *
+  `;
+  const { rows } = await pool.query(insertQuery, [employee_id, product_id, message]);
+  const workLog = rows[0];
 
     if(workLog) {
         res.status(201).json({messsage: 'New Work Log Created', workLog});

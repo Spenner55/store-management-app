@@ -7,12 +7,9 @@ const cookieParser = require('cookie-parser');
 const {logger, logEvents } = require('./middleware/logger');
 const errorHandler = require('./middleware/errorHandler');
 const corsOptions = require('./config/corsOptions');
-const connectDB = require('./config/connect');
-const mongoose = require('mongoose');
 const PORT = process.env.PORT || 5000;
+const pool = require('./config/connect');
 
-
-connectDB();
 
 app.use(logger);
 
@@ -27,7 +24,7 @@ app.use('/', express.static(path.join(__dirname, 'public')));
 app.use('/', require('./routes/root'));
 
 app.use('/auth', require('./routes/authRoute'));
-app.use('/employee', require('./routes/employeeRoutes'));
+app.use('/employees', require('./routes/employeeRoutes'));
 app.use('/worklog', require('./routes/workLogRoute'));
 
 app.use(errorHandler);
@@ -43,12 +40,12 @@ app.all('*', (req, res) => {
   }
 });
 
-mongoose.connection.once('open', () => {
-    console.log('Connected to MongoDB');
+pool.connect()
+  .then(() => {
+    console.log('Connected to PostgreSQL');
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-  });
-    
-  mongoose.connection.on('error', err => {
-    console.log(err);
-    logEvents(`${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`, 'mongoErrLog.log');
+  })
+  .catch(err => {
+    console.error('PostgreSQL connection error:', err)
+    process.exit(1);
   });
