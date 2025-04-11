@@ -9,13 +9,13 @@ export const employeesApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getEmployees: builder.query({
             query: () => '/employees',
-            validateStatus: (reponse, result) => {
-                return reponse.status === 200 && !result.isError
+            validateStatus: (response, result) => {
+                return response.status === 200 && !result.isError
             },
             keepUnusedDataFor: 5,
             transformResponse: responseData => {
                 const loadedEmployees = responseData.map(employee => {
-                    employee.id = employee._id;
+                    employee.id = employee.id;
                     return employee;
                 });
                 return employeesAdapter.setAll(inititalState, loadedEmployees);
@@ -27,7 +27,7 @@ export const employeesApiSlice = apiSlice.injectEndpoints({
                         ...result.ids.map(id => ({type: 'Employee', id}))
                     ]
                 }
-                else return [{type: 'User', id: 'LIST'}];
+                else return [{type: 'Employee', id: 'LIST'}];
             }
         }),
 
@@ -46,7 +46,7 @@ export const employeesApiSlice = apiSlice.injectEndpoints({
 
         updateEmployee: builder.mutation({
             query: initialEmployeeData => ({
-                url: 'employees',
+                url: '/employees',
                 method: 'PATCH',
                 body: {
                     ...initialEmployeeData,
