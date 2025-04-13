@@ -1,0 +1,105 @@
+.public {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #555;
+}
+
+.public-header {
+    padding: 1rem;
+    background-color: #222;
+    color: #0046b3;
+}
+
+.public-header h1 {
+    margin: 0rem;
+}
+
+.public-footer {
+    padding: 1rem;
+    background-color: #222;
+}
+
+.public-footer a {
+    text-decoration: none;
+    background-color: #0046b3;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+    margin-top: 0.5rem;
+}
+
+.public-footer a:hover {
+    background-color: #00308f;
+}
+
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.login {
+    /* Remove the old display: flex, width: 20rem, etc. */
+    width: 400px;
+    padding: 2rem;
+    background-color: #222; /* or #fff, depending on your design */
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin: 1rem auto;
+    text-align: center;
+}
+
+.login h1 {
+    color: #0046b3;
+    font-size: 3rem;
+    margin: 0.1rem;
+}
+
+.login__form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column; /* label above input */
+    margin-bottom: 1rem;    /* space between rows */
+    text-align: left;
+}
+
+.form-row label {
+    margin-bottom: 0.25rem;
+    color: #fff;
+}
+
+.form-row input {
+    padding: 0.5rem;
+    border: 1px solid #888;
+    background-color: #1c1c1c;
+    color: #fff;
+    border-radius: 4px;
+}
+
+.submit-button {
+    background-color: #0046b3;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+    margin-top: 0.5rem;
+}
+
+.submit-button:hover {
+    background-color: #00308f;
+}

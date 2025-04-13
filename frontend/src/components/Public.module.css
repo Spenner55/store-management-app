@@ -1,29 +1,40 @@
 .public {
-    text-align: center;
-    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #555;
+    color: #0046b3;
 }
 
-.public__header {
+.public-header {
     font-size: 2rem;
     font-weight: bold;
+    text-align: center;
+    background-color: #222;
 }
 
-.public__main {
+.public-main {
     margin-top: 2rem;
+    margin-bottom: 2rem;
+    flex-grow: 1;
+    text-align: center;
 }
 
-.public__employee__login {
+.public-login__link {
     text-decoration: none;
     color: white;
-    background-color: #007bff;
+    background-color: #0046b3;
     padding: 0.5rem 1rem;
     border-radius: 5px;
     display: inline-block;
 }
 
-.public__footer {
-    margin-top: 2rem;
+.public-login__link:hover {
+    background-color: #00308f;
+}
+
+.public-footer {
+    display: flex;
     background-color: #222;
     color: white;
-    padding: 1rem;
 }

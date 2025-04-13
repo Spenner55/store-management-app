@@ -1,6 +1,7 @@
 .dash-footer {
+    display: flex;
     background-color: #222;
     color: white;
-    text-align: center;
+    align-items: flex-end;
     padding: 1rem;
 }
