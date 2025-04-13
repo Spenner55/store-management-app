@@ -5,6 +5,8 @@ import { useDispatch } from 'react-redux';
 import { setCredentials } from './authSlice';
 import { useLoginMutation } from './authApiSlice';
 
+import styles from './Login.module.css';
+
 const Login = () => {
     const errRef = useRef();
     const userRef = useRef();
@@ -63,41 +65,45 @@ const Login = () => {
     if (isLoading) return <p>Loading...</p>
 
     const content = (
-        <section className='public'>
-            <header>
+        <section className={styles['public']}>
+            <header className={styles['public-header']}>
                 <h1>
-                    Employee Login
+                    Store Employee Login Portal
                 </h1>
             </header>
-            <main className='login'>
-                <p ref={errRef} className={errClass} aria-live='assertive' tabIndex='-1'>{errMsg}</p>
-                <form className='form' onSubmit={handleSubmit}>
-                    <label htmlFor='email'>email: </label>
-                    <input
-                        className='form__input'
-                        type='text'
-                        id='email'
-                        ref={userRef}
-                        value={email}
-                        onChange={handleUserInput}
-                        autoComplete='off'
-                        required
-                    />
+            <main className={styles['main']}>
+                <div className={styles['login']}>
+                    <h1>Sign In</h1>
+                    <p ref={errRef} className={errClass} aria-live='assertive' tabIndex='-1'>{errMsg}</p>
+                    <form className={styles['login__form']} onSubmit={handleSubmit}>
+                        <div className={styles['form-row']}>
+                            <label htmlFor='email'>Email </label>
+                            <input
+                                type='text'
+                                id='email'
+                                ref={userRef}
+                                value={email}
+                                onChange={handleUserInput}
+                                autoComplete='off'
+                                required
+                            />
+                        </div>
+                        <div className={styles['form-row']}>
+                            <label htmlFor='password'>Password</label>
+                            <input
+                                type='password'
+                                id='password'
+                                onChange={handlePasswordInput}
+                                value={password}
+                                required
+                            />
+                        </div>
 
-                    <label htmlFor='password'>Password:</label>
-                    <input
-                        className='form__input'
-                        type='password'
-                        id='password'
-                        onChange={handlePasswordInput}
-                        value={password}
-                        required
-                    />
-
-                    <button className='form__submit-button'>Login</button>
-                </form>
+                        <button className={styles['submit-button']}>Login</button>
+                    </form>
+                </div>
             </main>
-            <footer>
+            <footer className={styles['public-footer']}>
                 <Link to='/'>Back</Link>
             </footer>
         </section>

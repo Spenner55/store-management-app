@@ -1,19 +1,29 @@
 .dash-header {
-    background-color: #444;
+    background-color: #0a87cfe8;
     color: white;
-    padding: 1rem;
 }
 
 .dash-header__container {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: flex-start;
 }
 
-.dash-header__home {
-    font-size: 1.5rem;
+.dash-header__link {
     text-decoration: none;
+    background-color: #0046b3;
     color: white;
+    padding: 0.5rem 1rem;
+    border: 1px solid black;
+    border-left: none;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+    margin-top: 0.5rem;
+}
+
+.dash-header__link:hover {
+    color: gray;
 }
 
 .dash-header__nav {

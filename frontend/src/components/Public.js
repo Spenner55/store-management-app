@@ -3,15 +3,15 @@ import styles from './Public.module.css';
 
 const Public = () => {
     return (
-        <section className={styles.public}>
-            <header className={styles.publicHeader}>
+        <section className={styles['public']}>
+            <header className={styles['public-header']}>
                 <h1>Welcome to Store</h1>
             </header>
-            <main className={styles.publicMain}>
-                <Link className={styles.publicEmployeeLogin} to='/login'>Login</Link>
+            <main className={styles['public-main']}>
+                <Link className={styles['public-login__link']} to='/login'>Login</Link>
             </main>
-            <footer className={styles.publicFooter}>
-
+            <footer className={styles['public-footer']}>
+                footer
             </footer>
         </section>
     );

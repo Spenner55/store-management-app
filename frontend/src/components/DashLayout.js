@@ -5,13 +5,13 @@ import styles from './DashLayout.module.css';
 
 const DashLayout = () => {
     return (
-        <>
+        <div className={styles['dash-layout']}>
             <DashHeader />
-            <div className={styles.dashContainer}>
+            <div className={styles['dash-container']}>
                 <Outlet />
             </div>
             <DashFooter />
-        </>
+        </div>
     );
 }
 
