@@ -25,7 +25,7 @@ app.use('/', require('./routes/root'));
 
 app.use('/auth', require('./routes/authRoute'));
 app.use('/employees', require('./routes/employeeRoutes'));
-app.use('/worklog', require('./routes/workLogRoute'));
+app.use('/worklogs', require('./routes/workLogRoute'));
 
 app.use(errorHandler);
 

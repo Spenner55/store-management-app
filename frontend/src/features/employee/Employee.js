@@ -10,29 +10,29 @@ const Employee = ({employeeId}) => {
     if(employee) {
         const handleEdit = () => navigate(`/dash/employees/${employeeId}`);
 
-        const cellStatus = employee.active ? '' : 'table__cell--inactive';
+        const cellStatus = employee.active ? '' : '-inactive';
 
         return (
-            <tr className='table__row employee'>
-                <td className={`table__cell ${cellStatus}`}>
+            <tr className='employee'>
+                <td className={`employee-row ${cellStatus}`}>
                     {employee.first_name}
                 </td>
-                <td className={`table__cell ${cellStatus}`}>
+                <td className={`employee-row ${cellStatus}`}>
                     {employee.last_name}
                 </td>
-                <td className={`table__cell ${cellStatus}`}>
+                <td className={`employee-row ${cellStatus}`}>
                     {employee.department}
                 </td>
-                <td className={`table__cell ${cellStatus}`}>
+                <td className={`employee-row ${cellStatus}`}>
                     {employee.role}
                 </td>
-                <td className={`table__cell ${cellStatus}`}>
+                <td className={`employee-row ${cellStatus}`}>
                     {employee.wage}
                 </td>
-                <td className={`table__cell ${cellStatus}`}>
+                <td className={`employee-row ${cellStatus}`}>
                     {employee.email}
                 </td>
-                <td className='table__button' onClick={handleEdit}>
+                <td className='employee-edit' onClick={handleEdit}>
                     Edit
                 </td>
             </tr>
