@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 
 const getAllEmployees = asyncHandler(async (req, res) => {
   const { rows: employees } = await pool.query(
-    'SELECT id, first_name, last_name, email, department, role, wage FROM employees'
+    'SELECT employee_id, first_name, last_name, email, department, role, wage FROM employees'
   );
 
   if (!employees.length) {
@@ -12,6 +12,18 @@ const getAllEmployees = asyncHandler(async (req, res) => {
   }
 
   res.json(employees);
+});
+
+const getEmployeeName = asyncHandler(async (req, res) => {
+  const { rows: employee } = await pool.query(
+    'SELECT first_name, last_name FROM employees WHERE employee_id = $1'
+  );
+
+  if(!employee.length) {
+    return res.status(400).json({message: 'No Employee Found'});
+  }
+
+  res.json(employee);
 });
 
 const createNewEmployee = asyncHandler(async (req, res) => {
@@ -26,7 +38,7 @@ const createNewEmployee = asyncHandler(async (req, res) => {
   const insertText = `
     INSERT INTO employees (first_name, last_name, email, password, department)
     VALUES ($1, $2, $3, $4, $5)
-    RETURNING id, first_name, last_name
+    RETURNING employee_id, first_name, last_name
   `;
   const { rows: employee } = await pool.query(insertText, [
     first_name,
@@ -47,7 +59,7 @@ const updateEmployee = asyncHandler(async (req, res) => {
   }
 
   const { rows: foundRows } = await pool.query(
-    'SELECT * FROM employees WHERE id = $1',
+    'SELECT * FROM employees WHERE employee_id = $1',
     [id]
   );
 
@@ -68,7 +80,7 @@ const updateEmployee = asyncHandler(async (req, res) => {
       wage = $5,
       role = $6,
       password = $7
-    WHERE id = $8
+    WHERE employee_id = $8
     RETURNING first_name, last_name
   `;
   const { rows: updatedRows } = await pool.query(updateText, [
@@ -110,6 +122,7 @@ const deleteEmployee = asyncHandler(async (req, res) => {
 
 module.exports = {
   getAllEmployees,
+  getEmployeeName,
   createNewEmployee,
   updateEmployee,
   deleteEmployee

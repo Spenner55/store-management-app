@@ -60,8 +60,6 @@ const Login = () => {
         }
     }
 
-    const errClass = errMsg ? 'errmsg' : 'offscreen';
-
     if (isLoading) return <p>Loading...</p>
 
     const content = (
@@ -74,7 +72,7 @@ const Login = () => {
             <main className={styles['main']}>
                 <div className={styles['login']}>
                     <h1>Sign In</h1>
-                    <p ref={errRef} className={errClass} aria-live='assertive' tabIndex='-1'>{errMsg}</p>
+                    <p ref={errRef} className={styles['error']} aria-live='assertive' tabIndex='-1'>{errMsg}</p>
                     <form className={styles['login__form']} onSubmit={handleSubmit}>
                         <div className={styles['form-row']}>
                             <label htmlFor='email'>Email </label>

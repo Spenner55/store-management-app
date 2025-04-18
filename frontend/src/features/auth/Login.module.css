@@ -103,3 +103,7 @@
 .submit-button:hover {
     background-color: #00308f;
 }
+
+.error {
+    color: red;;
+}
