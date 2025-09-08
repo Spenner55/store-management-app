@@ -35,8 +35,8 @@ const WorkLogList = ({nameFilter = ''}) => {
             <thead className="table__thead">
                 <tr>
                     <th scope="col" className="table__th worklog__name">Employee</th>
-                    <th scope="col" className="table__th worklog__product">Product ID</th>
                     <th scope="col" className="table__th worklog__message">Message</th>
+                    <th scope="col" className="table__th worklog__production">Items Produced</th>
                     <th scope="col" className="table__th worklog__created">Created At</th>
                 </tr>
             </thead>

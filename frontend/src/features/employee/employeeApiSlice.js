@@ -14,13 +14,8 @@ export const employeesApiSlice = apiSlice.injectEndpoints({
             },
             keepUnusedDataFor: 5,
             transformResponse: responseData => {
-                console.log("API Response:", responseData);
                 const data = responseData?.data ?? responseData;
-                const normalized = Array.isArray(data) ? data : [data];
-                const loadedEmployees = normalized.map(e => {
-                    e.id = e.employee_id;
-                    return e;
-                });
+                const loadedEmployees = Array.isArray(data) ? data : [data];
                 return employeesAdapter.setAll(inititalState, loadedEmployees);
             },
             providesTags: (result, error, arg) => {
@@ -90,5 +85,5 @@ const selectEmployeesData = createSelector(
 export const {
     selectAll: selectAllEmployees,
     selectById: selectEmployeesById,
-    selectIds: selectUserIds
+    selectIds: selectEmployeeIds
 } = employeesAdapter.getSelectors(state => selectEmployeesData(state) ?? inititalState);

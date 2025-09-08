@@ -9,6 +9,4 @@ router.use(verifyJWT);
 
 router.post('/', workLogController.createNewWorkLog);
 
-router.get('/:employee_id', workLogController.getEmployeeWorkLogs);
-
 module.exports = router;

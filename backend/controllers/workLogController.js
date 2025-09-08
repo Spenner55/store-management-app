@@ -5,55 +5,38 @@ const getAllWorkLogs = asyncHandler(async (req, res) => {
     const { name } = req.query;
 
     let text = `
-        SELECT 
-        w.worklog_id           AS "worklog_id",
-        w.product_id           AS "product_id",
-        w.created_at           AS "created_at",
-        w.message              AS "message",
-        e.employee_id          AS "employee_id",
-        e.first_name           AS "first_name",
-        e.last_name            AS "last_name"
-        FROM worklogs w
-        JOIN employees e ON e.employee_id = w.employee_id
+        SELECT
+        w.id AS worklog_id, w.employee_id, w.created_at, w.message,
+        e.first_name, e.last_name,
+        COALESCE(
+            JSON_AGG(JSON_BUILD_OBJECT('product_id', i.product_id, 'quantity', i.quantity)
+                    ORDER BY i.product_id)
+            FILTER (WHERE i.product_id IS NOT NULL),
+            '[]'::json
+        ) AS items
+        FROM public.worklogs w
+        JOIN public.employees e ON e.id = w.employee_id
+        LEFT JOIN public.worklog_items i ON i.worklog_id = w.id
+        GROUP BY w.id, w.employee_id, w.created_at, w.message, e.first_name, e.last_name
     `;
 
     const values = [];
+    const where = [];
 
     if (name) {
-        text += `WHERE (e.first_name || ' ' || e.last_name) ILIKE $1`;
+        where.push(`(e.first_name || ' ' || e.last_name) ILIKE $${values.length + 1}`);
         values.push(`%${name}%`);
     }
-    text += ' ORDER BY w.worklog_id DESC';
 
-    const { rows: workLogs } = await pool.query(text, values);
-
-    if(!workLogs?.length) {
-        return res.status(400).json({message: 'No Work Logs Found'});
+    if (where.length) {
+        text += ` WHERE ${where.join(' AND ')}`;
     }
 
-    res.json(workLogs);
-});
+    text += ` ORDER BY w.id DESC;`;
 
-const getEmployeeWorkLogs = asyncHandler(async (req, res) => {
-    const {employee_id} = req.params;
-    
-    const { rows: workLogs } = await pool.query(
-        `SELECT
-        w.worklog_id           AS "worklog_id",
-        w.product_id           AS "product_id",
-        w.created_at           AS "created_at",
-        w.message              AS "message",
-        e.employee_id          AS "employee_id",
-        e.first_name           AS "first_name",
-        e.last_name            AS "last_name"
-        FROM worklogs w 
-        JOIN employees e ON e.employee_id = w.employee_id
-        WHERE w.employee_id = $1`,
-        [employee_id]
-      );
-
-    if(!workLogs?.length) {
-        return res.status(400).json({message: `No Work Logs found for employee: ${employee_id}`});
+    const { rows: workLogs } = await pool.query(text, values);
+    if (!workLogs?.length) {
+        return res.status(400).json({ message: 'No Work Logs Found' });
     }
 
     res.json(workLogs);
@@ -63,7 +46,7 @@ const createNewWorkLog = asyncHandler(async (req, res) => {
     const {employee_id, product_id, message} = req.body;
 
     if(!employee_id || !product_id || !message) {
-        res.status(400).json({message: "All Fields Required"});
+        return res.status(400).json({message: "All Fields Required"});
     }
 
     const insertQuery = `
@@ -78,12 +61,11 @@ const createNewWorkLog = asyncHandler(async (req, res) => {
         res.status(201).json({messsage: 'New Work Log Created', workLog});
     }
     else {
-        res.status(400).json({message: 'Error Creating Work Log'})
+        res.status(400).json({message: 'Error Creating Work Log'});
     }
 });
 
 module.exports = {
     getAllWorkLogs,
-    getEmployeeWorkLogs,
     createNewWorkLog,
 };
