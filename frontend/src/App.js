@@ -11,10 +11,8 @@ import Home from './features/auth/Home';
 import { ROLES } from './config/roles';
 import Prefetch from './features/auth/Prefetch';
 import PersistLogin from './features/auth/PersistLogin';
-//import useAutoLogin from './hooks/useAutoLogin';
 
 function App() {
-	//useAutoLogin();
 	return (
 		<Routes>
 			<Route path="/" element={<Layout />}>

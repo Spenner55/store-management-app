@@ -17,13 +17,8 @@ export const workLogsApiSlice = apiSlice.injectEndpoints({
             },
             keepUnusedDataFor: 5,
             transformResponse: responseData => {
-                console.log("API Response:", responseData);
                 const data = responseData?.data ?? responseData;
-                const normalized = Array.isArray(data) ? data : [data];
-                const loadedWorkLogs = normalized.map(wl => {
-                    wl.id = wl.worklog_id;
-                    return wl;
-                });
+                const loadedWorkLogs = Array.isArray(data) ? data : [data];
                 console.log("Loaded WorkLogs:", loadedWorkLogs);
                 return workLogsAdapter.setAll(initialState, loadedWorkLogs);
             },
@@ -44,7 +39,6 @@ export const workLogsApiSlice = apiSlice.injectEndpoints({
             },
             keepUnusedDataFor: 5,
             transformResponse: responseData => {
-                console.log("API Response:", responseData);
                 const data = responseData?.data ?? responseData;
                 const normalized = Array.isArray(data) ? data : [data];
                 const loadedWorkLogs = normalized.map(wl => {
