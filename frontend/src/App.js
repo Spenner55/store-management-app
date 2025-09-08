@@ -11,6 +11,7 @@ import Home from './features/auth/Home';
 import { ROLES } from './config/roles';
 import Prefetch from './features/auth/Prefetch';
 import PersistLogin from './features/auth/PersistLogin';
+import CreateWorkLogForm from './features/worklog/CreateWorkLogForm';
 
 function App() {
 	return (
@@ -33,6 +34,9 @@ function App() {
 
 							<Route path='worklogs'>
 			                    <Route index element={<WorkLogList />} />
+								<Route path='worklog_form'>
+									<Route index element={<CreateWorkLogForm />} />
+								</Route>
 			                </Route>
 
 						</Route>
