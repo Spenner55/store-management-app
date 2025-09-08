@@ -12,12 +12,16 @@ import { ROLES } from './config/roles';
 import Prefetch from './features/auth/Prefetch';
 import PersistLogin from './features/auth/PersistLogin';
 import CreateWorkLogForm from './features/worklog/CreateWorkLogForm';
+import InventoryList from './features/inventory/InventoryList';
 
 function App() {
 	return (
 		<Routes>
 			<Route path="/" element={<Layout />}>
 				<Route index element={<Public />}/>
+				<Route path='inventory'>
+					<Route index element={<InventoryList/>}/>
+				</Route>
 
 				<Route path='login' element={<Login/>}/>
                 <Route path='unauthorized' element={<Unauthorized/>}/>
