@@ -43,25 +43,73 @@ const getAllWorkLogs = asyncHandler(async (req, res) => {
 });
 
 const createNewWorkLog = asyncHandler(async (req, res) => {
-    const {employee_id, product_id, message} = req.body;
+    const {message, items} = req.body;
 
-    if(!employee_id || !product_id || !message) {
-        return res.status(400).json({message: "All Fields Required"});
+    const employee_id = req.user.id;
+
+    if(!employee_id || !message) {
+        return res.status(400).json({message: "employee_id and message are required"});
     }
 
-    const insertQuery = `
-    INSERT INTO worklogs (employee_id, product_id, message)
-    VALUES ($1, $2, $3)
-    RETURNING *
-  `;
-  const { rows } = await pool.query(insertQuery, [employee_id, product_id, message]);
-  const workLog = rows[0];
+    const safeItems = Array.isArray(items) ? items
+        .filter(i => i && Number.isInteger(i.product_id) && Number.isInteger(i.quantity))
+        .map(i => ({ product_id: i.product_id, quantity: i.quantity }))
+    : [];
 
-    if(workLog) {
-        res.status(201).json({messsage: 'New Work Log Created', workLog});
+    const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+
+    const insertWorklogSQL = `
+      INSERT INTO public.worklogs (employee_id, message)
+      VALUES ($1, $2)
+      RETURNING id, employee_id, message, created_at
+    `;
+    const { rows: [w] } = await client.query(insertWorklogSQL, [employee_id, message]);
+
+    if (safeItems.length) {
+      const products = safeItems.map(i => i.product_id);
+      const quantities = safeItems.map(i => i.quantity);
+
+      const insertItemsSQL = `
+        INSERT INTO public.worklog_items (worklog_id, product_id, quantity)
+        SELECT $1, p, q
+        FROM UNNEST($2::int[], $3::int[]) AS t(p, q)
+      `;
+      await client.query(insertItemsSQL, [w.id, products, quantities]);
+
+      const updateInventorySQL = `
+        UPDATE public.inventory inv
+        SET current_stock = inv.current_stock + t.qty
+        FROM (
+          SELECT UNNEST($1::int[]) AS id, UNNEST($2::int[]) AS qty
+        ) AS t
+        WHERE inv.id = t.id
+      `;
+      await client.query(updateInventorySQL, [products, quantities]);
+
+      const missingSQL = `
+        SELECT p AS missing_id
+        FROM UNNEST($1::int[]) p
+        LEFT JOIN public.inventory inv ON inv.id = p
+        WHERE inv.id IS NULL
+      `;
+      const { rows: missing } = await client.query(missingSQL, [products]);
+      if (missing.length) {
+        throw new Error(`Unknown product_id(s) in inventory: ${missing.map(r => r.missing_id).join(', ')}`);
+      }
     }
-    else {
-        res.status(400).json({message: 'Error Creating Work Log'});
+
+    await client.query('COMMIT');
+    return res.status(201).json({
+      message: 'New Work Log Created',
+      worklog_id: w.id
+    });
+    } catch (err) {
+        await client.query('ROLLBACK');
+        throw err;
+    } finally {
+        client.release();
     }
 });
 

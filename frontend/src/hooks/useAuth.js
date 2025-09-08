@@ -12,7 +12,8 @@ const useAuth = () => {
         console.log(decoded);
         const email = decoded?.UserInfo?.email;
         const role = decoded?.UserInfo?.role;
-        return { email, role };
+        const id = decoded?.UserInfo?.id;
+        return { id, email, role };
     }
     catch (err) {
         console.error('Failed to decode token', err);
