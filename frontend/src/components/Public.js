@@ -8,7 +8,8 @@ const Public = () => {
                 <h1>Welcome to Store</h1>
             </header>
             <main className={styles['public-main']}>
-                <Link className={styles['public-login__link']} to='/login'>Login</Link>
+                <Link className={styles['public-links']} to='/login'>Login</Link>
+                <Link className={styles['public-links']} to='/inventory'>Browse Inventory</Link>
             </main>
             <footer className={styles['public-footer']}>
                 footer

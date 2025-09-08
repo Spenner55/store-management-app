@@ -20,16 +20,17 @@
     text-align: center;
 }
 
-.public-login__link {
+.public-links {
     text-decoration: none;
     color: white;
     background-color: #0046b3;
     padding: 0.5rem 1rem;
     border-radius: 5px;
+    border-color: black;
     display: inline-block;
 }
 
-.public-login__link:hover {
+.public-links:hover {
     background-color: #00308f;
 }
 
