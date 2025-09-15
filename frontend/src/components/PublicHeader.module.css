@@ -1,0 +1,48 @@
+.public-header {
+    color: white;
+    background-color: #0046b3;
+}
+
+.public-header-container {
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    gap: 0.5rem;
+}
+
+.public-header-home {
+    text-decoration: none;
+    color: white;
+    padding: 1rem 0;
+}
+
+.public-header-links {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    gap: 0.1rem;
+}
+
+.public-header-links a {
+    text-decoration: none;
+    color: white;
+    padding: 1rem 1rem;
+}
+
+.public-header-links a:hover {
+    color: rgb(47, 47, 51);
+    background-color: #075eeb;
+    border-radius: 5px;
+}
+
+.public-header-login {
+    margin-left: auto;
+}
+
+.public-header-login-link {
+    text-decoration: none;
+    color: white;
+    padding: 1rem 0;
+}
+

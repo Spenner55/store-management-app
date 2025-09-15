@@ -7,8 +7,9 @@ const Home = () => {
             <div className={styles['home-container']}>
                 <h1>Welcome to Employee Portal</h1>
                 <div className={styles['links']}>
-                    <Link to='/dash/employees'>View list of co-workers</Link>
-                    <Link to='/dash/worklogs'>View list of worklogs</Link>
+                    <Link to='./employees'>View list of co-workers</Link>
+                    <Link to='./worklogs'>View list of worklogs</Link>
+                    <Link to='./inventory'>View Inventory</Link>
                 </div>
             </div>
         </section>
