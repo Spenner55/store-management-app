@@ -5,7 +5,7 @@ const Inventory = ({itemId}) => {
     const item = useSelector(state => selectItemById(state, itemId));
 
     if(item) {
-        return (
+        return (   
             <tr className="item">
                 <td className="item-row">
                     {item.item_name}
