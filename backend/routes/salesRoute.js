@@ -4,5 +4,6 @@ const salesController = require('../controllers/salesController');
 
 router.get('/', salesController.getAllSales);
 router.post('/checkout', salesController.createReceipt);
+router.post('/sales-return', salesController.createRefund);
 
 module.exports = router;
