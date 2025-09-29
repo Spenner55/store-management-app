@@ -15,7 +15,7 @@ const getInventoryAll = asyncHandler(async (req, res) => {
     }
 
     res.json(inventory);
-})
+});
 
 const getInventoryByDepartment = asyncHandler(async (req, res) => {
     const { department } = req.query;
@@ -56,7 +56,7 @@ const getInventoryByItem = asyncHandler(async (req, res) => {
 });
 
 const createNewItem = asyncHandler(async (req, res) => {
-    const { item_name, price, current_stock } = req.params;
+    const { item_name, price, current_stock } = req.body;
 
     if(!item_name || !price) {
         return res.status(400).json({message: 'name and price must be provided'});
