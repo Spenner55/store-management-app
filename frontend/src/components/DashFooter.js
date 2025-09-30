@@ -3,9 +3,9 @@ import styles from './DashFooter.module.css';
 
 const DashFooter = () => {
     const content = (
-        <header className={styles.dashFooter}>
+        <footer className={styles['dashFooter']}>
             Footer
-        </header>
+        </footer>
     )
     return content;
 }

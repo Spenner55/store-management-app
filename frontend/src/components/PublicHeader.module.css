@@ -6,14 +6,20 @@
 .public-header-container {
     display: flex;
     align-items: center;
-    padding: 0 1rem;
+    padding: 0 0rem;
     gap: 0.5rem;
 }
 
 .public-header-home {
     text-decoration: none;
     color: white;
-    padding: 1rem 0;
+    padding: 1rem 1rem;
+}
+
+.public-header-home:hover {
+    color: rgb(40, 40, 43);
+    background-color: #075eeb;
+    border-radius: 5px;
 }
 
 .public-header-links {
@@ -38,11 +44,18 @@
 
 .public-header-login {
     margin-left: auto;
+    padding: 1rem 0rem;
 }
 
 .public-header-login-link {
     text-decoration: none;
     color: white;
-    padding: 1rem 0;
+    padding: 1rem 1rem;
+}
+
+.public-header-login:hover {
+    color: rgb(47, 47, 51);
+    background-color: #075eeb;
+    border-radius: 5px;
 }
 

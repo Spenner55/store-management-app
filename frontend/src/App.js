@@ -45,14 +45,14 @@ function App() {
 
 							<Route path='inventory'>
 								<Route index element={<InventoryList/>}/>
-							</Route> 
+							</Route>
+
+							<Route element={<RequireAuth allowedRoles={[ROLES.Manager, ROLES.Admin]} />} >
+
+							</Route>
 
 						</Route>
 					</Route>
-				</Route>
-
-				<Route element={<RequireAuth allowedRoles={[ROLES.Manager, ROLES.Admin]} />} >
-
 				</Route>
 		</Routes>
 	);

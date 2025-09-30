@@ -6,7 +6,7 @@ const PublicHeader = () => {
         <header className={styles['public-header']}>
             <div className={styles['public-header-container']}>
                 <div>
-                    <Link className={styles['public-header-home']} to='/'>Home</Link>
+                    <Link to='/' className={styles['public-header-home']}>Home</Link>
                 </div>
                 <nav className={styles['public-header-links']}>
                     <Link to='/inventory'>Browse Inventory</Link>
@@ -17,7 +17,7 @@ const PublicHeader = () => {
 
                 </nav>
                 <div className={styles['public-header-login']}>
-                    <Link className={styles['public-header-login-link']} to='/login'>Login</Link>
+                    <Link to='/login' className={styles['public-header-login-link']}>Login</Link>
                 </div>
             </div>
         </header>

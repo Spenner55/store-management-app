@@ -28,6 +28,7 @@ app.use('/employees', require('./routes/employeeRoutes'));
 app.use('/worklogs', require('./routes/workLogRoute'));
 app.use('/inventory', require('./routes/inventoryRoute'));
 app.use('/sales', require('./routes/salesRoute'));
+app.use('/schedule', require('./routes/schedulesRoutes'));
 
 app.use(errorHandler);
 
