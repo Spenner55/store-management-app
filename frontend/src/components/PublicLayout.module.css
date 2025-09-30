@@ -1,0 +1,10 @@
+.public-layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.public-layout-container {
+    flex: 1;
+    min-height: 0;
+}

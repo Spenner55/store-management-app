@@ -1,42 +1,10 @@
 .public {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background-color: #555;
-    color: #0046b3;
-}
-
-.public-header {
-    font-size: 2rem;
-    font-weight: bold;
     text-align: center;
-    background-color: #222;
+    height: 100%;
+    padding: 0rem;
 }
 
-.public-main {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    flex-grow: 1;
-    text-align: center;
-    padding: 1rem;
-}
-
-.public-links {
-    text-decoration: none;
-    color: white;
-    background-color: #0046b3;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    border-color: black;
-    display: inline-block;
-}
-
-.public-links:hover {
-    background-color: #00308f;
-}
-
-.public-footer {
-    display: flex;
-    background-color: #222;
-    color: white;
+.public-container h1 {
+    font-size: 5rem;
+    margin: 1rem;
 }

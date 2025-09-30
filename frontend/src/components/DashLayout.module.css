@@ -1,11 +1,10 @@
 .dash-layout {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-.dash-container {
-    flex-grow: 1;
-    box-sizing: border-box;
-    background-color: white;
+.dash-layout-container {
+  flex: 1;
+  min-height: 0;
 }
