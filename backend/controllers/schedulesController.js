@@ -1,8 +1,9 @@
 const pool = require('../config/connect');
 const asyncHandler = require('express-async-handler');
+const { getDefaultDateWindow } = require('../utils/dateWindow');
 
 const getMyShifts = asyncHandler(async(req, res) => {
-    const { from, to } = req.query;
+    const { from, to } = getDefaultDateWindow(req);
     const { rows: shifts } = await pool.query(
         `
         SELECT * FROM shifts
@@ -23,7 +24,7 @@ const getMyShifts = asyncHandler(async(req, res) => {
 });
 
 const getAllShifts = asyncHandler(async(req, res) => {
-    const { from, to } = req.query
+    const { from, to } = getDefaultDateWindow(req);
     const { rows: shifts } = await pool.query(
         `
         SELECT * FROM shifts
