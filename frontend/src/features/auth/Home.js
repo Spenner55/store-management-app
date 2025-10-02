@@ -10,6 +10,7 @@ const Home = () => {
                     <Link to='./employees'>View list of co-workers</Link>
                     <Link to='./worklogs'>View list of worklogs</Link>
                     <Link to='./inventory'>View Inventory</Link>
+                    <Link to='./schedule'>View Schedule</Link>
                 </div>
             </div>
         </section>

@@ -6,7 +6,7 @@ const verifyRole = require('../middleware/verifyRoles');
 
 router.use(verifyJWT);
 
-router.get('/me', schedulesController.getMyShifts);
+router.get('/:id', schedulesController.getMyShifts);
 router.get('/', schedulesController.getAllShifts);
 
 router.post('/', verifyRole('Manager', 'Admin'), schedulesController.createNewShift);

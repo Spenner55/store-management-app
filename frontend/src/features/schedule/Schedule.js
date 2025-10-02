@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { useGetMyShiftsQuery, makeMyScheduleSelectors } from "./scheduleApiSlice";
+import styles from "./Schedule.module.css"
 
 function weekWindowUtc(fromDate) {
     const d = new Date(fromDate);
@@ -69,54 +70,49 @@ const EmployeeSchedule = ({ employeeId }) => {
     const goThisWeek = () => setAnchor(new Date());
 
     return (
-    <div className="p-4">
-        <div className="flex items-center gap-2 mb-3">
-            <button onClick={goPrevWeek}>← Prev</button>
-            <button onClick={goThisWeek}>This Week</button>
-            <button onClick={goNextWeek}>Next →</button>
-            <div style={{ marginLeft: "auto", opacity: 0.7 }}>
-            {isLoading || isFetching ? "Loading…" : null}
+        <div className={styles['schedule']}>
+            <div className={styles['schedule-button-container']}>
+                <button onClick={goPrevWeek}>← Prev</button>
+                <button onClick={goThisWeek}>This Week</button>
+                <button onClick={goNextWeek}>Next →</button>
+                <div className={styles['schedule-loading']}>
+                    {isLoading || isFetching ? "Loading…" : null}
+                </div>
+            </div>
+            <div className={styles['schedule-container']}>
+                {Array.from({ length: 7 }).map((_, i) => {
+                    const day = new Date(start);
+                    day.setUTCDate(start.getUTCDate() + i);
+
+                    return (
+                        <div key={i} className={styles['employee-schedule-shift']}>
+                            <div className={styles['day-header']}>
+                                {formatDayHeader(day)}
+                            </div>
+                            {days[i].length === 0 ? (
+                                <div className={styles['no-shift']}>
+                                    — no shifts —
+                                </div>
+                            ) : (
+                                <ul className={styles['shift-container']}>
+                                    {days[i].map(s => (
+                                        <li key={s.id} className={styles['shift-list']}>
+                                            <div className={styles['shift-role']}>
+                                                {s.role_label ?? "undetermined"} {s.status ? `• ${s.status}` : ""}
+                                            </div>
+                                            <div className={styles['shift-time']}>
+                                                {formatTime(s.start_at)} – {formatTime(s.end_at)}
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
+                    );
+                })}
             </div>
         </div>
-
-        {/* Simple 7-column grid (Mon..Sun) */}
-        <div
-            style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(7, 1fr)",
-            gap: "12px",
-            }}
-        >
-            {Array.from({ length: 7 }).map((_, i) => {
-                const day = new Date(start);
-                day.setUTCDate(start.getUTCDate() + i);
-
-                return (
-                    <div key={i} style={{ border: "1px solid #ddd", borderRadius: 8, padding: 8 }}>
-                        <div style={{ fontWeight: 600, marginBottom: 8 }}>{formatDayHeader(day)}</div>
-
-                        {days[i].length === 0 ? (
-                            <div style={{ opacity: 0.6 }}>— no shifts —</div>
-                        ) : (
-                            <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: 6 }}>
-                            {days[i].map(s => (
-                                <li key={s.id} style={{ background: "#f6f8ff", borderRadius: 6, padding: "6px 8px" }}>
-                                <div style={{ fontSize: 12, opacity: 0.8 }}>
-                                    {s.role_label ?? "undetermined"} {s.status ? `• ${s.status}` : ""}
-                                </div>
-                                <div style={{ fontWeight: 600 }}>
-                                    {formatTime(s.start_at)} – {formatTime(s.end_at)}
-                                </div>
-                                {/* optional extra info */}
-                                {/* <div style={{ fontSize: 12 }}>Emp #{s.employee_id}</div> */}
-                                </li>
-                            ))}
-                        </ul>
-                    )}
-                    </div>
-                );
-            })}
-        </div>
-    </div>
-  );
+    );
 }
+
+export default EmployeeSchedule;
