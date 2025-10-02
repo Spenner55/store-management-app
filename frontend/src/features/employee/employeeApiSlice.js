@@ -12,7 +12,7 @@ export const employeesApiSlice = apiSlice.injectEndpoints({
             validateStatus: (response, result) => {
                 return response.status === 200 && !result.isError;
             },
-            keepUnusedDataFor: 5,
+            keepUnusedDataFor: 300,
             transformResponse: responseData => {
                 const data = responseData?.data ?? responseData;
                 const loadedEmployees = Array.isArray(data) ? data : [data];

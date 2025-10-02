@@ -17,7 +17,7 @@ export const scheduleApiSlice = apiSlice.injectEndpoints({
             validateStatus: (response, result) => {
                 return response.status === 200 && !result.isError;
             },
-            keepUnusedDataFor: 5,
+            keepUnusedDataFor: 300,
             transformResponse: responseData => {
                 const data = responseData.data ?? responseData;
                 const loadedShifts = Array.isArray(data) ? data : [data];
