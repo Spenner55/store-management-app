@@ -14,11 +14,6 @@ const getMyShifts = asyncHandler(async(req, res) => {
         `,
         [req.user.id, from ?? null, to ?? null]
     );
-
-    if(!shifts?.length) {
-        return res.status(400).json({ message: `No shifts for employee id ${employee_id} between ${from} and ${to} found`});
-    }
-
     res.json(shifts);
 
 });

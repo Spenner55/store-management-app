@@ -13,8 +13,10 @@ const login = asyncHandler(async (req, res) => {
     const foundResult = await pool.query(
         'SELECT * FROM employees WHERE email = $1', [email]
     )
-
+    
     const foundEmployee = foundResult.rows[0];
+
+    console.log(foundEmployee)
 
     if(!foundEmployee) {
         return res.status(401).json({message: 'Unauthorized Employee'});

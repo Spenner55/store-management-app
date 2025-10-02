@@ -14,6 +14,7 @@ import PersistLogin from './features/auth/PersistLogin';
 import CreateWorkLogForm from './features/worklog/CreateWorkLogForm';
 import InventoryList from './features/inventory/InventoryList';
 import PublicLayout from './components/PublicLayout';
+import MySchedule from './features/schedule/MySchedule';
 
 function App() {
 	return (
@@ -45,6 +46,10 @@ function App() {
 
 							<Route path='inventory'>
 								<Route index element={<InventoryList/>}/>
+							</Route>
+							
+							<Route path='schedule'>
+								<Route index element={<MySchedule/>}/>
 							</Route>
 
 							<Route element={<RequireAuth allowedRoles={[ROLES.Manager, ROLES.Admin]} />} >
