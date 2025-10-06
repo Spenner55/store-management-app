@@ -4,8 +4,8 @@ const inventoryController = require('../controllers/inventoryController');
 const verifyJWT = require('../middleware/verifyJWT');
 
 router.get('/', inventoryController.getInventoryAll);
-router.get('/:department', inventoryController.getInventoryByDepartment);
-router.get('/:item_id', inventoryController.getInventoryByItem);
+router.get('/department/:department', inventoryController.getInventoryByDepartment);
+router.get('/item/:item_name', inventoryController.getInventoryByItem);
 
 router.use(verifyJWT);
 

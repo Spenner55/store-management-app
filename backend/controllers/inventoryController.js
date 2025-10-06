@@ -18,7 +18,7 @@ const getInventoryAll = asyncHandler(async (req, res) => {
 });
 
 const getInventoryByDepartment = asyncHandler(async (req, res) => {
-    const { department } = req.query;
+    const { department } = req.params;
 
     const { rows: inventory } = await pool.query(
         `
@@ -37,15 +37,15 @@ const getInventoryByDepartment = asyncHandler(async (req, res) => {
 });
 
 const getInventoryByItem = asyncHandler(async (req, res) => {
-    const { item_name } = req.query;
+    const { item_name } = req.params;
 
     const { rows: inventory } = await pool.query(
         `
         SELECT
-        item_id, item_name, current_stock, price
+        id, item_name, current_stock, price
         FROM inventory
         WHERE item_name LIKE $1
-    `, [item_name]
+    `, [`%${item_name}%`]
     );
 
     if(!inventory?.length) {

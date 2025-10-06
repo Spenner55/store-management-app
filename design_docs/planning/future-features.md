@@ -75,7 +75,7 @@ Asterisks (*) indicate dependency or feature linkage:
 - [ ] Generate performance reports for employees and departments (2*)  
 - [ ] Generate daily tasks automatically (1*)  
 - [ ] Analyze sales numbers and production times to:
-  - [ ]Create daily production goals for employees  
+  - [ ] Create daily production goals for employees  
   - [ ] Identify overproduction leading to high shrink  
 
 ---
