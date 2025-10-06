@@ -16,8 +16,6 @@ const login = asyncHandler(async (req, res) => {
     
     const foundEmployee = foundResult.rows[0];
 
-    console.log(foundEmployee)
-
     if(!foundEmployee) {
         return res.status(401).json({message: 'Unauthorized Employee'});
     }
