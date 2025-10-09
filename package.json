@@ -1,6 +1,6 @@
 {
   "name": "store-management-app",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "devDependencies": {
     "@commitlint/cli": "^20.1.0",
